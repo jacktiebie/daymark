@@ -1,0 +1,112 @@
+Table users {
+  id integer [primary key]
+  first_name varchar
+  last_name varchar
+  email varchar
+  password varchar
+  created_at datetime
+}
+
+Table goals {
+  id integer [primary key]
+  user_id integer
+  title varchar
+  description varchar
+  target_value integer
+  current_value integer
+  unit varchar
+  status varchar
+  due_date date
+  created_at datetime
+  updated_at datetime
+}
+
+Table habits {
+  id integer [primary key]
+  user_id integer
+  title varchar
+  description varchar
+  frequency varchar
+  created_at datetime
+  updated_at datetime
+}
+
+Table habit_logs {
+  id integer [primary key]
+  habit_id integer
+  log_date date
+  completed boolean
+}
+
+Table notes {
+  id integer [primary key]
+  user_id integer
+  title varchar
+  description varchar
+  img varchar
+  created_at datetime
+  updated_at datetime
+}
+
+Table daily_checkins {
+  id integer [primary key]
+  user_id integer
+  mood tinyint
+  energy tinyint
+  productivity tinyint
+  sleep tinyint
+  overall_day tinyint
+  note text
+  created_at datetime
+}
+
+Table body_measurements {
+  id integer [primary key]
+  user_id integer
+  weight decimal(5,2)
+  bodyfat decimal(5,2)
+  waist decimal(5,2)
+  chest decimal(5,2)
+  length integer
+  created_at datetime
+}
+
+Table books {
+  id integer [primary key]
+  user_id integer
+  title varchar
+  genre varchar
+  notes text
+  status varchar
+  created_at datetime
+  updated_at datetime
+}
+
+Table projects {
+  id integer [primary key]
+  user_id integer
+  title varchar
+  description varchar
+  due_date date
+  status varchar
+  priority varchar
+  estimated_hours integer
+  img varchar
+  created_at datetime
+  updated_at datetime
+}
+
+Table tasks {
+  id integer [primary key]
+  user_id integer
+  project_id integer
+  title varchar
+  description varchar
+  status varchar
+  priority varchar
+  created_at datetime
+  updated_at datetime
+}
+
+
+/* RELATIONSHIPS */

@@ -13,6 +13,7 @@ De basisstructuur van Daymark opzetten.
 - Nagedacht over structuur en inhoud
 - Documentatie aangemaakt
 - Git geleerd i.p.v. Github Desktop
+- Database Connectie aangemaakt
 
 ### Problem
 
@@ -28,4 +29,4 @@ Ik heb geleerd hoe ik documentatie professioneler schrijf en dat kebab-case vaak
 
 ### Next
 
-- MVP bouwen
+- Verder aan de MVP bouwen

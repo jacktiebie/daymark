@@ -1,0 +1,177 @@
+/* IMPORT FONT FAMILY */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+/*Matches the highest-level parent element in the document tree (<html>) + global design variables*/
+:root {
+    --accent-color: #067d18;
+    --base-color: white;
+    --text-color: #2E2B41;
+    --input-color: #F3F0FF;
+}
+
+/*Resetting the margin and padding*/
+*{
+    margin: 0;
+    padding: 0;
+}
+
+
+html {
+    font-family: Poppins, Segoe UI, sans-serif;
+    font-size: 12pt;
+    color: var(--text-color);
+    text-align: center;
+}
+
+
+body {
+    min-height: 100vh;
+    background-image: url(../images/backgroundAuth.jpg);
+    background-size: cover;
+    background-position: right;
+    overflow: hidden;
+}
+/* */
+.wrapper {
+    /*makes sure that the padding and border is included in the width*/
+    box-sizing: border-box;
+    background-color: var(--base-color);
+    /* 100% of the viewport/screen*/
+    height: 100vh;
+    /* 40%, but never smaller then 600px so the form is still visibile */
+    width: max(40%, 600px);
+    padding: 10px;
+    /* Adding border for visual enhancement */
+    border-radius: 0 20px 20px 0;
+    /* Centering the items in an column using display flex */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 3rem is 3x the normal font-size */
+h1 {
+    font-size: 3rem;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+form {
+    /* Minimum smaller value returns, mobile screens 100% is smaller then 400px. */
+    width: min(400px, 100%);
+    /* Adding margin on top and bottom */
+    margin-top: 20px;
+    margin-bottom: 50px;
+    /* Centering items in the form */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Increasing the form inputs distance from top to bottom */
+    gap: 10px;
+}
+
+/* Direct child of the form are the 4 div containers */
+form > div {
+    width: 100%;
+    display: flex;
+    justify-content: center
+}
+form label {
+    /* Using flex-shrink because we want to have a fixed height and width */
+    flex-shrink: 0;
+    height: 50px;
+    width: 50px;
+    background-color: var(--accent-color);
+    /* Used to control the svg icon color */
+    fill: var(--base-color);
+    /* Used to control the @ color */
+    color: var (--base-color);
+    border-radius: 10px 0 0 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+form input {
+    box-sizing: border-box;
+    /* Can use the left out space  so it is responsive */
+    flex-grow: 1;
+    min-width: 0;
+    height: 50px;
+    padding: 1em;
+    font: inherit;
+    border-radius: 0 10px 10px 0;
+        border: 2px solid var(--input-color);
+        border-left: none;
+    background-color: var(--input-color);
+transition: 150ms ease;
+}
+
+form input:hover{
+    border-color: var(--accent-color);
+}
+
+/* Focus Psuedo Class */
+form input:focus {
+    outline: none;
+    border-color:var(--text-color);
+}
+
+/* Direct children of the div that has the input:focus will change its background-color */
+div:has(input:focus) > label {
+    background-color: var(--text-color);
+}
+
+/* You can change opacity to make the text color darker */
+form input::placeholder {
+    color: var(--text-color);
+}
+
+form button {
+    margin-top: 10px;
+    border: none;
+    border-radius: 1000px;
+    padding: .85em 4em;
+    background-color: var(--accent-color);
+    color: var(--base-color);
+    font: inherit;
+    font-weight: 600;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: 150ms ease;
+}
+
+form button:hover {
+    background-color: var(--text-color);
+}
+
+form button:focus {
+    outline: none;
+    background-color: var(--text-color);
+}
+
+a {
+    text-decoration: none;
+    color: var(--accent-color);
+}
+
+a:hover {
+    text-decoration: underline;
+}
+/* ICON STYLING */
+label img {
+    width: 25px;
+    height: 25px;
+    vertical-align: middle;
+}
+/* Making the screen responsive by using a media query */
+@media(width: 1100px) {
+.wrapper {
+    width: min(600px, 100%);
+    border-radius: 0;
+}
+}
+

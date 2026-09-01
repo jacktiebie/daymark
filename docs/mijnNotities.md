@@ -27,4 +27,12 @@ $pdo
 return $pdo
 
 PHP STARTEN ZONDER MYOCNFIG
+cd public
 C:\xampp\php\php.exe -S localhost:8000
+
+## HANDIGE LINKS
+https://fonts.google.com/icons?icon.size=24&icon.color=%23e3e3e3
+pexels.com
+fonts.google.com
+
+EMMET = CONTROL + SHIFT + P en dan  Emmet: Wrap with abbrevation en dan DIV schrijven

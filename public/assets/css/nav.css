@@ -1,0 +1,66 @@
+/* NAV STYLING */
+nav {
+    box-sizing: border-box;
+    background-color: var(--base-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 8rem;
+    width: 100%;
+    gap: 2rem;
+}
+
+
+
+
+.logo {
+    width: 7rem;
+}
+
+
+.button > a {
+    padding: 0.4rem 1rem;
+        font: inherit;
+    text-transform: uppercase;
+}
+.navLogin {
+    border-color: var(--accent-color);
+    background-color: var(--base-color);
+    border-style: solid;
+    border-width: 0.2rem;
+}
+
+.navRegister {
+    background-color: var(--accent-color);
+    color: var(--base-color);
+    border: solid;
+    border-width: 0.rem;
+    border-color: var(--accent-color);
+}
+
+
+div > a {
+padding-inline: 0.5rem;
+}
+
+
+ul {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+}
+
+li {
+list-style-type: none;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+
+
+

@@ -1,0 +1,16 @@
+footer {
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--section-color);
+    height: 20vh;
+      overflow: hidden;
+    align-items: center;
+    padding-inline: 8rem;
+}
+
+
+.footerItem {
+    display: flex;
+    flex-direction: row;
+justify-content: center;
+}

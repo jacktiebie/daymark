@@ -1,0 +1,84 @@
+
+/* STYLING SECTION ONE*/
+.sectionOne {
+    background-color: var(--section-color);
+    height: 80vh;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4rem;
+}
+
+section {
+    padding-inline: 8rem;
+}
+.sectionOne h1 {
+    text-transform: uppercase;
+    font-weight: 600;
+    padding-top: 3rem;
+}
+
+.sectionOne p {
+    width: 25rem;
+    padding-top: 2rem;
+}
+
+.sectionOneGroup {
+    width: 40vw;
+}
+
+.sectionOne img {
+    width: 20vw;
+    height: auto;
+
+}
+
+.sectionTwo {
+        background-color: var(--base-color);
+    height: 60vh;
+    padding-top: 7rem;
+}
+
+
+
+
+.sectionTwoGroup {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+}
+
+.statItem {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding-top: 5rem;
+}
+
+.statItem p {
+    margin: 0;
+}
+
+
+
+.sectionThree {
+    height: 100vh;
+    background-color: lightgray;
+    padding-top: 5rem;
+}
+
+.sectionThreeGroup {
+    display: flex;
+    gap: 1rem;
+    padding-top: 5rem;
+}
+
+.sectionThreeGroup > div {
+    background-color: white;
+    padding: 1rem 1rem;
+}
+
+
+
+

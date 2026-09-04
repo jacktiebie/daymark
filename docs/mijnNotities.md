@@ -36,3 +36,15 @@ pexels.com
 fonts.google.com
 
 EMMET = CONTROL + SHIFT + P en dan  Emmet: Wrap with abbrevation en dan DIV schrijven
+
+
+4 OOP dingen snappen:
+1. Class
+
+
+
+
+
+2. Object / new
+3. Constructur
+4. $this

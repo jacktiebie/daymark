@@ -1,20 +1,50 @@
 <?php
 require_once '../app/bootstrap.php';
+require_once '../app/classes/auth.php';
+
+/** @var PDO $pdo */
+$auth = new Auth($pdo);
 
 
+//Retrieving data using POST if submit button is clicked.
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $firstName = $_POST['firstName'];
+    $lastName = $_POST['lastName'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $passwordRepeat = $_POST['passwordRepeat'];
+
+//Checking if password is equal
+    if ($passwordRepeat !== $password) {
+
+$_SESSION['registerErrors'][] = "De wachtwoorden komen niet overeen";
+            header('Location: register.php');
+    exit;
+    } else {
+
+    $auth->register(
+        $firstName,
+        $lastName,
+        $email,
+        $password
+    );
+    }
+
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <?php require_once '../app/css.php'; ?>
     <link rel="stylesheet" href="assets/css/auth.css">
+
     <title>Registreren</title>
 </head>
 <body>
+    <?php require_once 'C:\Users\PC\Desktop\codingProjects\dayMark\app\views\partials\nav.php';?>
    <div class="wrapper">
     <h1>Registreren</h1>
-    <form action="post">
+    <form action="register.php" method="POST">
         <!-- I include an svg icon that can be assesed in the images folder for the label -->
         <div>
             <label for="firstName"><img src="assets/images/personIcon.svg" alt="Persoon Icoon"></label>
@@ -30,15 +60,22 @@ require_once '../app/bootstrap.php';
         </div>
         <div>
             <label for="password"><img src="assets/images/lockIcon.svg" alt="Slotje icoon"></label>
-            <input type="password" name="wachtwoord" id="wachtwoord" placeholder="Wachtwoord" required>
+            <input type="password" name="password" id="password" placeholder="Wachtwoord" required>
         </div>
         <div>
-            <label for="password"><img src="assets/images/lockIcon.svg" alt="Slotje icoon"></label>
+            <label for="passwordRepeat"><img src="assets/images/lockIcon.svg" alt="Slotje icoon"></label>
             <input type="password" name="passwordRepeat" id="passwordRepeat" placeholder="Wachtwoord herhalen" required>
         </div>
+           <?php
+if (isset($_SESSION['registerErrors'])) {foreach ($_SESSION['registerErrors'] as $error) {
+    echo "<span class='errorMessage'>" . $error . "</span>";
+}unset($_SESSION['registerErrors']);
+}
+           ?>
         <button type="submit">Account Aanmaken</button>
     </form>
     <p>Heb je al een accunt? <a href="login.php">Login</a></p>
    </div> 
+  
 </body>
 </html>

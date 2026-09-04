@@ -6,12 +6,12 @@ require_once '../app/bootstrap.php';
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <?php require_once '../app/css.php'; ?>
     <link rel="stylesheet" href="assets/css/auth.css">
     <title>Login</title>
 </head>
 <body>
+    <?php require_once 'C:\Users\PC\Desktop\codingProjects\dayMark\app\views\partials\nav.php';?>
     <div class="wrapper">
         <form action="" method="post">
             <div>
@@ -25,5 +25,6 @@ require_once '../app/bootstrap.php';
             <button type="submit">Inloggen</button>
         </form>
     </div>
+    <?php require_once 'C:\Users\PC\Desktop\codingProjects\dayMark\app\views\partials\footer.php';?>
 </body>
 </html>

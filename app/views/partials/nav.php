@@ -18,8 +18,15 @@
 </ul>
 </div>
 <div class="button">
+    <?php if (isset($_SESSION['user_id'])) {
+        
+    ?> 
+    <a href="./dashboard.php" class="navLogin">Dashboard</a>
+    <a href="./logout.php" class="navRegister">Uitloggen</a> <?php
+    } else { ?>
     <a href="./login.php" class="navLogin">Inloggen</a>
     <a href="./register.php" class="navRegister">Registreren</a>
+    <?php } ?>
 </div>
 
 

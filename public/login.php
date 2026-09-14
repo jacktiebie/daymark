@@ -1,6 +1,13 @@
 <?php
 require_once '../app/bootstrap.php';
-
+require_once '../app/classes/auth.php';
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+$email = $_POST['email'];
+$password = $_POST['password'];
+/** @var PDO $pdo */
+$auth = new Auth($pdo);
+$auth->loginUsers($email, $password);
+}
 
 ?>
 <!DOCTYPE html>
@@ -25,6 +32,5 @@ require_once '../app/bootstrap.php';
             <button type="submit">Inloggen</button>
         </form>
     </div>
-    <?php require_once 'C:\Users\PC\Desktop\codingProjects\dayMark\app\views\partials\footer.php';?>
 </body>
 </html>

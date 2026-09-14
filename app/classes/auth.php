@@ -41,7 +41,7 @@ class Auth
     private function validatePassword(string $password)
     {
         if (!preg_match("/^(?=.*\d)(?=.*[^a-zA-Z0-9]).{6,}$/", $password)) {
-            $_SESSION['registerErrors'][] = "Wachtwoord is niet veilig genoeg";
+            $_SESSION['notificationMessage'][] = "Wachtwoord is niet veilig genoeg";
             header('Location: http://localhost:8000/register.php');
             exit();
         }
@@ -57,7 +57,7 @@ class Auth
         $stmt->execute([$email]);
         $emailDuplicate = $stmt->fetch();
         if ($emailDuplicate) {
-        $_SESSION['registerErrors'][] = "Email is al in gebruik";
+        $_SESSION['notificationMessage'][] = "Email is al in gebruik";
         header('Location: http://localhost:8000/register.php');
         exit();
         } 

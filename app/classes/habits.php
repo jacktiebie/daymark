@@ -38,15 +38,23 @@ public function uploadHabit($userid, $title, $description, $frequency, $created_
 $sql = "INSERT INTO habits (user_id, title, description, frequency, created_at) VALUES (?, ?, ?, ?, ?)";
 $stmt = $this->pdo->prepare($sql);
 $stmt->execute([$userid, $title, $description, $frequency, $created_at]);
+    $_SESSION['notificationMessage'][] = "Habit is gemaakt";
     }
 
 
 public function getHabits ($userid) {
-$sql = "SELECT title, description, frequency FROM habits WHERE user_id = ?";
+$sql = "SELECT id, title, description, frequency FROM habits WHERE user_id = ?";
 $stmt = $this->pdo->prepare($sql);
 $stmt->execute([$userid]);
 $habits = $stmt->fetchALL(PDO::FETCH_ASSOC);
 return $habits;
+}
+
+public function deleteHabit($habit_id) {
+$sql = "DELETE FROM habits WHERE id = ?";
+$stmt = $this->pdo->prepare($sql);
+$stmt->execute([$habit_id]);
+$_SESSION['notificationMessage'][] = "Habit is verwijderd";
 }
 }
 

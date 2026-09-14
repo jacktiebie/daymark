@@ -18,7 +18,7 @@ $auth->loginUsers($email, $password);
     <title>Login</title>
 </head>
 <body>
-    <?php require_once 'C:\Users\PC\Desktop\codingProjects\dayMark\app\views\partials\nav.php';?>
+<?php require_once '../app/views/partials/nav.php';?>
     <div class="wrapper">
         <form action="" method="post">
             <div>

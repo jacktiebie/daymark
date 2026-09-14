@@ -41,7 +41,7 @@ $_SESSION['registerErrors'][] = "De wachtwoorden komen niet overeen";
     <title>Registreren</title>
 </head>
 <body>
-    <?php require_once 'C:\Users\PC\Desktop\codingProjects\dayMark\app\views\partials\nav.php';?>
+<?php require_once '../app/views/partials/nav.php';?>
    <div class="wrapper">
     <h1>Registreren</h1>
     <form action="register.php" method="POST">

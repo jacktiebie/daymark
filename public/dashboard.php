@@ -13,7 +13,11 @@ require_once '../app/classes/auth.php';
     <link rel="stylesheet" href="./assets/css/global.css">
 </head>
 <body>
-<?php require_once 'C:\Users\PC\Desktop\codingProjects\dayMark\app\views\partials\dashboardHeader.php';?>
+<?php require_once '../app/views/partials/dashboardHeader.php';?>
+<?php if (isset($_SESSION['notificationMessage'])) {foreach ($_SESSION['notificationMessage'] as $notificiation) {
+    echo "<span>" . $notification . "</span>";
+}unset($_SESSION['notificationMessage']);
+}  ?>
 
 
 </body>

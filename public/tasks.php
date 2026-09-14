@@ -4,12 +4,21 @@ require_once '../app/classes/habits.php';
 $userid = $_SESSION["user_id"];
 $habitModel = new Habits($pdo);
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-$title = $_POST['title'];
-$description = $_POST['description'];
-$frequency = $_POST['frequency'];
 
-/** @var PDO $pdo */
-$habitModel->createHabit($title, $description, $frequency, $userid);
+}
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    if ($_POST['action'] === 'create') {
+     $title = $_POST['title'];
+    $description = $_POST['description'];
+    $frequency = $_POST['frequency'];
+    $habitModel->createHabit($title, $description, $frequency, $userid);
+    }
+
+    if ($_POST['action'] === 'delete') {
+        $habit_id = $_POST['habit_id'];
+        $habitModel->deleteHabit($habit_id);
+    }
 }
 ?>
 
@@ -24,7 +33,11 @@ $habitModel->createHabit($title, $description, $frequency, $userid);
     <title>Document</title>
 </head>
 <body>
-    <?php require_once 'C:\Users\PC\Desktop\codingProjects\dayMark\app\views\partials\dashboardHeader.php';?>
+<?php require_once '../app/views/partials/dashboardHeader.php';?>
+<?php if (isset($_SESSION['notificationMessage'])) {foreach ($_SESSION['notificationMessage'] as $notificiation) {
+    echo "<span>" . $notificiation . "</span>";
+}unset($_SESSION['notificationMessage']);
+}  ?>
 <div class="habitNav">
     <div class="habitNavWrapOne">
     <h1>Habits</h1>
@@ -117,8 +130,12 @@ $habitModel->createHabit($title, $description, $frequency, $userid);
     </div>
     <div class="flexWrapThree">
     <div class="habitsItemsModifyWrap">
+      
     <a href=""><img src="./assets/images/pencil.png" class="habitItemsModify" alt=""></a>
-    <a href=""><img src="./assets/images/trashCan.png" class="habitItemsModify" alt=""></a>
+      <form method="post">
+        <input type="hidden" name="habit_id" value="<?php echo $habit['id'];?>">
+    <button type="submit" name="action" value="delete"><img src="./assets/images/trashCan.png" class="habitItemsModify" alt=""></button>
+</form>
 </div>
 </div>
 </div>
@@ -136,7 +153,7 @@ $habitModel->createHabit($title, $description, $frequency, $userid);
         <input type="text" name="description" id="description">
         <label for="frequency">Hoeveel x per week</label>
         <input type="number" name="frequency"  id="frequency">
-        <button type="submit">Maak habit aan</button>
+<button type="submit" name="action" value="create">Toevoegen</button>
     </form>
 </section>
 </body>

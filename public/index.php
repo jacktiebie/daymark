@@ -11,7 +11,7 @@ require_once '../app/bootstrap.php';
     <title>Document</title>
 </head>
 <body>
-<?php require_once 'C:\Users\PC\Desktop\codingProjects\dayMark\app\views\partials\nav.php';?>
+<?php require_once '../app/views/partials/nav.php';?>
 <section class="sectionOne">
     <div class="sectionOneGroup">
 <h1>Lorem Ipsum dolor sit amet</h1>
@@ -81,9 +81,9 @@ require_once '../app/bootstrap.php';
     </div>
 </div>
 </section>
-   <?php require_once 'C:\Users\PC\Desktop\codingProjects\dayMark\app\views\partials\footer.php';?>
+<?php require_once '../app/views/partials/footer.php';?>
 
-<?php if (isset($_SESSION['registerSucces'])) {foreach ($_SESSION['registerSucces'] as $succes) {
-    echo "<span class='errorMessage'>" . $succes . "</span>";
-}unset($_SESSION['registerSucces']);
+<?php if (isset($_SESSION['notificationMessage'])) {foreach ($_SESSION['notificationMessage'] as $notificiation) {
+    echo "<span>" . $notification . "</span>";
+}unset($_SESSION['notificationMessage']);
 }  ?>

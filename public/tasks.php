@@ -3,22 +3,34 @@ require_once '../app/bootstrap.php';
 require_once '../app/classes/habits.php';
 $userid = $_SESSION["user_id"];
 $habitModel = new Habits($pdo);
+
+//Retrieving current dates
+//create a loop with i+ 
+for ($i = 0; $i <=6; $i++) {
+ $time[] = date('d/m/Y', strtotime("monday this week +$i days"));
+}
+
+
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 }
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    if ($_POST['action'] === 'create') {
-     $title = $_POST['title'];
+switch ($_POST['action']) {
+case 'create':
+    $title = $_POST['title'];
     $description = $_POST['description'];
     $frequency = $_POST['frequency'];
     $habitModel->createHabit($title, $description, $frequency, $userid);
-    }
-
-    if ($_POST['action'] === 'delete') {
-        $habit_id = $_POST['habit_id'];
+    break;
+ case 'delete':
+  $habit_id = $_POST['habit_id'];
         $habitModel->deleteHabit($habit_id);
-    }
+        break;
+    
+}
+
 }
 ?>
 
@@ -90,42 +102,55 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <p>🔥 7 day streak</p>
 
     <div class="habitWeek">
-
+<form method="post">
+    <?php
+    foreach($time as $day) {
+        ?>
+           <div class="habitDay">
+         <button type="submit" name="action" value="<?php echo $day ?>"><span class="dayCircle done"></span></button>
+            <span>Monday</span>
+        </div>
+        <?php
+    }
+        ?>
+    <!--
         <div class="habitDay">
-            <span class="dayCircle done"></span>
+         <button type="submit" name="action" value="monday"><span class="dayCircle done"></span></button>
             <span>M</span>
         </div>
 
         <div class="habitDay">
-            <span class="dayCircle done"></span>
+            <button type="submit" name="action" value="tuesday"><span class="dayCircle done"></span></button>
             <span>T</span>
         </div>
 
         <div class="habitDay">
-            <span class="dayCircle done"></span>
+            <button type="submit" name="action" value="wensday"><span class="dayCircle done"></span></button>
             <span>W</span>
         </div>
 
         <div class="habitDay">
-            <span class="dayCircle"></span>
+            <button type="submit" name="action" value="thursday"><span class="dayCircle"></span></button>
             <span>T</span>
         </div>
 
         <div class="habitDay">
-            <span class="dayCircle"></span>
+            <button type="submit" name="action" value="friday"><span class="dayCircle"></span></button>
             <span>F</span>
         </div>
 
         <div class="habitDay">
-            <span class="dayCircle"></span>
+            <button type="submit" name="action" value="saturday"><span class="dayCircle"></span></button>
             <span>S</span>
         </div>
 
         <div class="habitDay">
-            <span class="dayCircle"></span>
+            <button type="submit" name="action" value="sunday"><span class="dayCircle"></span></button>
             <span>S</span>
         </div>
-
+ -->
+        <input type="hidden" name="habit_id" value="<?php echo $habit['id'];?>">
+</form>
     </div>
     </div>
     <div class="flexWrapThree">

@@ -4,17 +4,18 @@ require_once '../app/classes/habits.php';
 $userid = $_SESSION["user_id"];
 $habitModel = new Habits($pdo);
 
+$class = "Daycircle";
+
 //Retrieving current dates
 //create a loop with i+ 
 for ($i = 0; $i <=6; $i++) {
- $time[] = date('d/m/Y', strtotime("monday this week +$i days"));
+ $time[] = date('Y-m-d', strtotime("monday this week +$i days"));
 }
 
 
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 switch ($_POST['action']) {
@@ -28,7 +29,10 @@ case 'create':
   $habit_id = $_POST['habit_id'];
         $habitModel->deleteHabit($habit_id);
         break;
-    
+case 'habitCase':
+  $habit_id = $_POST['habit_id'];
+    $habit_date = $_POST['habit_date'];
+    $habitModel->habitCompleted($habit_id, $habit_date);
 }
 
 }
@@ -87,7 +91,7 @@ case 'create':
     
     foreach ($habits as $habit) {
 
-    
+   
     ?>
     <div class="habitsItems">
         <div class="flexWrapOne">
@@ -99,16 +103,21 @@ case 'create':
     </div>
     </div>
     <div class="flexWrapTwo">
-        <p>🔥 7 day streak</p>
+        <p>🔥 <?php echo $habit['frequency']; ?> Expected Frequency</p>
 
     <div class="habitWeek">
-<form method="post">
+<form class="habitDayForm" method="post">
     <?php
     foreach($time as $day) {
+        $class = $habitModel->checkHabitCompleted($habit['id'], $day);
         ?>
            <div class="habitDay">
-         <button type="submit" name="action" value="<?php echo $day ?>"><span class="dayCircle done"></span></button>
-            <span>Monday</span>
+            <input type="hidden" name="habit_id" value="<?php echo $habit['id'];?>">
+            <input type="hidden" name="action" value="habitCase";>
+         <button type="submit" name="habit_date" value="<?php echo $day; ?>"><span class="<?php echo $class ?>"></span></button>
+         
+         
+         <span>Monday</span>
         </div>
         <?php
     }
@@ -149,7 +158,7 @@ case 'create':
             <span>S</span>
         </div>
  -->
-        <input type="hidden" name="habit_id" value="<?php echo $habit['id'];?>">
+    
 </form>
     </div>
     </div>
@@ -183,3 +192,12 @@ case 'create':
 </section>
 </body>
 </html>
+
+<!-- 
+TO DO:
+- Habit Graph
+- POP UP ADD HABIT 
+- ACTIVE HABITS + OTHER STATS
+- STYLING
+- EDIT HABIT
+-->

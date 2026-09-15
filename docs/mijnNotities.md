@@ -826,3 +826,9 @@ Nu: habit vandaag kunnen afvinken → log opslaan → logs ophalen → bolletjes
 Daarna: deze week automatisch genereren → 3 / 4 this week → echte dashboard-stats → streak → edit habit.
 
 Ik kan als volgende stap met jou alleen het afvinken van één habit voor vandaag bouwen, stap voor stap en zonder meteen de volledige code voor je te schrijven.
+
+ALTER TABLE habit_logs
+ADD CONSTRAINT fk_habit_logs_habit
+FOREIGN KEY (habit_id)
+REFERENCES habits(id)
+ON DELETE CASCADE;

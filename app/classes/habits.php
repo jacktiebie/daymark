@@ -133,6 +133,19 @@ Class Habits
             return $class = "dayCircle done";
         }
     }
+
+    public function getCompletedHabitCount($userid) {
+        // Returns the number of rows - from habit logs and use habits to get habits.id where habits.user_id = ?
+        $sql = "SELECT COUNT(*)
+        FROM habit_logs
+        JOIN habits ON habit_logs.habit_id = habits.id
+        WHERE habits.user_id = ?;";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([$userid]);
+        //Gebruik fetchColumn want geeft maar een waade terug en anders heb je een arraymmet fetch
+        return $stmt->fetchColumn();
+    }
 }
 
 ?>

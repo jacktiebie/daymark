@@ -13,6 +13,17 @@ for ($i = 0; $i <=6; $i++) {
 }
 
 
+// for the loop and the count
+
+  $habits = $habitModel->getHabits($userid);
+$habitsNumber = count($habits);
+
+
+//get completed habit logs row count
+$habitLogCount = $habitModel->getCompletedHabitCount($userid);
+
+
+
 
 
 
@@ -24,15 +35,18 @@ case 'create':
     $description = $_POST['description'];
     $frequency = $_POST['frequency'];
     $habitModel->createHabit($title, $description, $frequency, $userid);
+    echo "<meta http-equiv='refresh' content='0'>";
     break;
  case 'delete':
   $habit_id = $_POST['habit_id'];
         $habitModel->deleteHabit($habit_id);
+        echo "<meta http-equiv='refresh' content='0'>";
         break;
 case 'habitCase':
   $habit_id = $_POST['habit_id'];
     $habit_date = $_POST['habit_date'];
     $habitModel->habitCompleted($habit_id, $habit_date);
+    echo "<meta http-equiv='refresh' content='0'>";
 }
 
 }
@@ -65,30 +79,28 @@ case 'habitCase':
 <section class="habitStats">
     <div class="habitStatsItems">
         <img src="./assets/images/drop.png" alt="">
-        <h2>3</h2>
+        <h2><?php echo $habitsNumber; ?></h2>
         <p>Active habits</p>
     </div>
         <div class="habitStatsItems">
         <img src="./assets/images/drop.png" alt="">
-        <h2>3</h2>
-        <p>Active habits</p>
+        <h2><?php echo $habitLogCount; ?></h2>
+        <p>Habits Finished</p>
+    </div>
+        <div class="habitStatsItems">
+        <img src="./assets/images/drop.png" alt="">
+        <h2>?</h2>
+        <p>Lorem Ipsum</p>
     </div>
         <div class="habitStatsItems">
         <img src="./assets/images/drop.png" alt="">
         <h2>3</h2>
-        <p>Active habits</p>
-    </div>
-        <div class="habitStatsItems">
-        <img src="./assets/images/drop.png" alt="">
-        <h2>3</h2>
-        <p>Active habits</p>
+        <p>Lorem Ipsum</p>
     </div>
 </section>
 <section class="habits">
     <?php 
     /* LOOP */
-    $habits = $habitModel->getHabits($userid);
-    
     foreach ($habits as $habit) {
 
    

@@ -35,7 +35,8 @@ case 'create':
     $title = $_POST['title'];
     $description = $_POST['description'];
     $frequency = $_POST['frequency'];
-    $habitModel->createHabit($title, $description, $frequency, $userid);
+    $iconChoice = $_POST['image'];
+    $habitModel->createHabit($title, $description, $frequency, $userid, $iconChoice);
     echo "<meta http-equiv='refresh' content='0'>";
     break;
  case 'delete':
@@ -75,7 +76,7 @@ case 'habitCase':
 <p>Build a better you, one habit at a time</p>
    </div>
   <div class="habitNavWrapTwo"></div>
-<a href="" class="habitButtonAdd">+ Add Habit</a>
+  <button class="habitButtonAdd" onclick="showPopup()">+ Add Habit</button>
 </div>
 <section class="habitStats">
     <div class="habitStatsItems">
@@ -104,11 +105,20 @@ case 'habitCase':
     /* LOOP */
     foreach ($habits as $habit) {
 $weekDaysI = 0;
+if ($habit['icon'] == 'drop') {
+$icon = './assets/images/drop.png';
+} else if($habit['icon'] == 'meditate') {
+$icon = './assets/images/meditate.png';
+} else if ($habit['icon'] == 'working') {
+$icon = './assets/images/work.png';
+} else if ($habit['icon'] == 'gym') {
+$icon = './assets/images/gym.png';
+}
    
     ?>
     <div class="habitsItems">
         <div class="flexWrapOne">
-    <img class="habitsItemsImg" src="./assets/images/drop.png" alt="">
+    <img class="habitsItemsImg" src="<?php echo $icon ?>" alt="Icon">
     <div class="habitsItemsWrap">
     <h3><?php echo $habit['title']; ?></h3>
     <p><?php echo $habit['description']; ?></p>
@@ -195,7 +205,10 @@ $weekDaysI = 0;
     }
 ?>
 </section>
-<section class="habitsAdd">
+
+
+<div class="popup" id="popup">
+    <section class="habitsAdd">
     <form action="" method="post">
         <input type="hidden" name="userID">
         <label for="title">Titel</label>
@@ -204,9 +217,50 @@ $weekDaysI = 0;
         <input type="text" name="description" id="description">
         <label for="frequency">Hoeveel x per week</label>
         <input type="number" name="frequency"  id="frequency">
+<div class="habitImageField">
+    <label>Choose an icon</label>
+
+    <div class="habitImageOptions">
+
+        <label class="habitImageOption">
+            <input type="radio" name="image" value="drop">
+            <span class="habitImageCard">
+                <img src="./assets/images/drop.png" alt="Water">
+                <span>Water</span>
+            </span>
+        </label>
+
+        <label class="habitImageOption">
+            <input type="radio" name="image" value="gym">
+            <span class="habitImageCard">
+                <img src="./assets/images/gym.png" alt="Gym">
+                <span>Gym</span>
+            </span>
+        </label>
+
+        <label class="habitImageOption">
+            <input type="radio" name="image" value="working">
+            <span class="habitImageCard">
+                <img src="./assets/images/work.png" alt="Work">
+                <span>Work</span>
+            </span>
+        </label>
+
+        <label class="habitImageOption">
+            <input type="radio" name="image" value="meditate">
+            <span class="habitImageCard">
+                <img src="./assets/images/meditate.png" alt="Meditate">
+                <span>Meditate</span>
+            </span>
+        </label>
+
+    </div>
+</div>
 <button type="submit" name="action" value="create">Toevoegen</button>
+<button type ="submit" name="action" value="back" onclick="removePopup()">Terug</button>
     </form>
 </section>
+</div>
 </body>
 </html>
 
@@ -218,3 +272,15 @@ TO DO:
 - STYLING
 - EDIT HABIT
 -->
+
+<script>
+function showPopup() {
+    var element = document.getElementById("popup");
+    element.classList.add("popupActive");
+}
+
+function removePopup() {
+    var element = document.getElementById("popup");
+    element.classList.remove("popupActive");
+}
+</script>

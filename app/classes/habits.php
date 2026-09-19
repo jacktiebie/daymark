@@ -11,7 +11,7 @@ Class Habits
     }
 
     // Create a new habit
-    public function createHabit(string $title, string $description, $frequency, $userid)
+    public function createHabit(string $title, string $description, $frequency, $userid, $iconChoice)
     {
         // Remove unnecessary spaces from the input data
         $title = trim($title);
@@ -25,7 +25,7 @@ Class Habits
         $this->validateHabit($title, $description, $frequency);
 
         // Save the habit to the database
-        $this->uploadHabit($userid, $title, $description, $frequency, $created_at);
+        $this->uploadHabit($userid, $title, $description, $frequency, $iconChoice, $created_at);
     }
 
     // Validate the habit input
@@ -47,11 +47,11 @@ Class Habits
     }
 
     // Insert a new habit into the database
-    public function uploadHabit($userid, $title, $description, $frequency, $created_at)
+    public function uploadHabit($userid, $title, $description, $frequency, $iconChoice, $created_at)
     {
-        $sql = "INSERT INTO habits (user_id, title, description, frequency, created_at) VALUES (?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO habits (user_id, title, description, frequency, icon, created_at) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = $this->pdo->prepare($sql);
-        $stmt->execute([$userid, $title, $description, $frequency, $created_at]);
+        $stmt->execute([$userid, $title, $description, $frequency, $iconChoice, $created_at]);
 
         // Show a success notification
         $_SESSION['notificationMessage'][] = "Habit is gemaakt";
@@ -60,7 +60,7 @@ Class Habits
     // Get all habits that belong to the current user
     public function getHabits($userid)
     {
-        $sql = "SELECT id, title, description, frequency FROM habits WHERE user_id = ?";
+        $sql = "SELECT id, title, description, frequency, icon FROM habits WHERE user_id = ?";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([$userid]);
 

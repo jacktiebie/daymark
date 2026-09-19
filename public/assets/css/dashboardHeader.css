@@ -1,25 +1,31 @@
-
 .dashboardHeaderOne {
-background-color: rgb(236, 236, 236);
-display: flex;
-align-items: center;
-justify-content: space-between;
- padding: 1rem 7rem;
+    background-color: var(--base-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 7rem;
+    box-shadow: var(--shadow-sm);
 }
 
 .logo {
-    width: 7rem;
+    width: 6rem;
 }
 
 .dashboardHeaderTwo {
-width: 7rem;
-float: left;
-height: 100vh;
-background-color: rgb(236, 236, 236);
+    width: 7rem;
+    float: left;
+    height: 100vh;
+    background-color: var(--base-color);
+    border-right: 1px solid var(--border-color);
 }
 
 .dashboardHeaderTwo a {
-    color: black;
+    color: var(--text-muted);
     text-decoration: none;
+    transition: color 0.15s ease;
+}
+
+.dashboardHeaderTwo a:hover {
+    color: var(--accent-color);
 }
 

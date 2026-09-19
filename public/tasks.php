@@ -5,6 +5,7 @@ $userid = $_SESSION["user_id"];
 $habitModel = new Habits($pdo);
 
 $class = "Daycircle";
+$weekDays = ["Monday", "Tuesday", "Wensday", "Thursday", "Friday", "Saturday", "Sunday"];
 
 //Retrieving current dates
 //create a loop with i+ 
@@ -94,7 +95,7 @@ case 'habitCase':
     </div>
         <div class="habitStatsItems">
         <img src="./assets/images/drop.png" alt="">
-        <h2>3</h2>
+        <h2>?</h2>
         <p>Lorem Ipsum</p>
     </div>
 </section>
@@ -102,7 +103,7 @@ case 'habitCase':
     <?php 
     /* LOOP */
     foreach ($habits as $habit) {
-
+$weekDaysI = 0;
    
     ?>
     <div class="habitsItems">
@@ -120,6 +121,7 @@ case 'habitCase':
     <div class="habitWeek">
 <form class="habitDayForm" method="post">
     <?php
+
     foreach($time as $day) {
         $class = $habitModel->checkHabitCompleted($habit['id'], $day);
         ?>
@@ -129,11 +131,14 @@ case 'habitCase':
          <button type="submit" name="habit_date" value="<?php echo $day; ?>"><span class="<?php echo $class ?>"></span></button>
          
          
-         <span>Monday</span>
+         <span><?php echo $weekDays[$weekDaysI]; ?></span>
+   
+            <?php $weekDaysI++?>
         </div>
         <?php
     }
         ?>
+        
     <!--
         <div class="habitDay">
          <button type="submit" name="action" value="monday"><span class="dayCircle done"></span></button>
@@ -180,7 +185,7 @@ case 'habitCase':
     <a href=""><img src="./assets/images/pencil.png" class="habitItemsModify" alt=""></a>
       <form method="post">
         <input type="hidden" name="habit_id" value="<?php echo $habit['id'];?>">
-    <button type="submit" name="action" value="delete"><img src="./assets/images/trashCan.png" class="habitItemsModify" alt=""></button>
+    <button type="submit" name="action" value="delete"><img  src="./assets/images/trashCan.png" class="habitItemsModify" alt=""></button>
 </form>
 </div>
 </div>

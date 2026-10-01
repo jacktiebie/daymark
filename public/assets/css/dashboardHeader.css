@@ -1,20 +1,46 @@
+/* ==================== BOVENBALK ==================== */
 .dashboardHeaderOne {
+    position: relative;
+    z-index: 1; /* schaduw valt over de sidebar heen */
     background-color: var(--base-color);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 2rem 10rem;
-    box-shadow: var(--shadow-sm);
+    gap: 2rem;
+    padding: 1rem 3rem 1rem 2rem;
+    box-shadow: 0 2px 14px rgba(0, 0, 0, 0.06);
 }
 
-.logo {
+.dashboardHeaderOne img {
     width: 6rem;
+    display: block;
 }
 
+.dashboardHeaderOne p {
+    margin: 0;
+}
+
+.dashboardHeaderOne .welcomeMessage {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+/* De quote rechts */
+.dashboardHeaderOne p:last-child {
+    color: var(--text-muted);
+    font-style: italic;
+    font-size: 0.9rem;
+}
+
+
+/* ==================== SIDEBAR ==================== */
 .dashboardHeaderTwo {
     width: 15rem;
     float: left;
     height: 100vh;
+    box-sizing: border-box;
+    padding: 1.5rem 1rem;
     background-color: var(--base-color);
     border-right: 1px solid var(--border-color);
 }
@@ -22,40 +48,47 @@
 .dashboardHeaderTwo ul {
     display: flex;
     flex-direction: column;
-    align-items: baseline;
-    padding-left: 2rem;
+    gap: 0.3rem;
+    margin: 0;
+    padding: 0;
     list-style-type: none;
-    
 }
 
+.dashboardHeaderTwo li {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.7rem 1rem;
+    border-radius: var(--radius-sm, 0.75rem);
+    transition: background-color 0.15s ease;
+}
 
-
+.headerIcon {
+    width: 1.3rem;
+    opacity: 0.55;
+    transition: opacity 0.15s ease;
+}
 
 .dashboardHeaderTwo a {
     color: var(--text-muted);
+    font-size: 0.95rem;
+    font-weight: 500;
     text-decoration: none;
     transition: color 0.15s ease;
 }
 
 
 
-.headerIcon {
-    width: 2rem;
-    margin-right: 0.5rem;
-}
-
-.dashboardHeaderTwo li {
-        padding: 0.5rem 1rem 0.5rem 1rem;
-        margin-bottom: 0.5rem;
-        width: 100%;
-        display: flex;
-        align-items: start;
-}
-
 .dashboardHeaderTwo li:hover {
-    background-color: lightblue;
+    background-color: var(--accent-color-light, #eef2ff);
 }
 
 .dashboardHeaderTwo li:hover a {
     color: var(--accent-color);
 }
+
+.dashboardHeaderTwo li:hover .headerIcon {
+    opacity: 1;
+}
+

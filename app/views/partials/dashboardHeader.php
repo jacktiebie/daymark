@@ -8,7 +8,7 @@
 <div class="dashboardHeaderTwo">
     <ul>
         <li ><img src="../assets/images/home.svg" alt="" class="headerIcon"><a href="./index.php">Home</a></li>
-        <li><img src="../assets/images/home.svg" alt="" class="headerIcon"><a href="./tasks.php">Tasks</a></li>
+        <li><img src="../assets/images/home.svg" alt="" class="headerIcon"><a href="./goals.php">Goals</a></li>
         <li><img src="../assets/images/home.svg" alt="" class="headerIcon"><a href="./daily-checkins.php">Daily Check-in</a></li>
         <li><img src="../assets/images/home.svg" alt="" class="headerIcon"><a href="./tasks.php">Habits</a></li>
         <li><img src="../assets/images/home.svg" alt="" class="headerIcon"><a href="./tasks.php">Progress</a></li>

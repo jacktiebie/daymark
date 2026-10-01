@@ -1,18 +1,51 @@
+/* =========================
+   GENERAL
+========================= */
 
-/* STYLING SECTION ONE*/
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+
+/* =========================
+   SECTIONS
+========================= */
+
+section {
+    width: 100%;
+    padding-left: 6rem;
+    padding-right: 6rem;
+}
+
+
+/* =========================
+   SECTION ONE
+========================= */
+
 .sectionOne {
     background-color: var(--section-color);
-    height: 80vh;
+    min-height: 80vh;
+
     display: flex;
-    flex-direction: row;
     align-items: center;
     justify-content: space-between;
+
     gap: 4rem;
 }
 
-section {
-    padding-inline: 8rem;
+.sectionOneGroup {
+    flex: 1;
+    max-width: 40rem;
 }
+
 .sectionOne h1 {
     text-transform: uppercase;
     font-weight: 600;
@@ -21,27 +54,26 @@ section {
 
 .sectionOne p {
     width: 25rem;
+    max-width: 100%;
     padding-top: 2rem;
 }
 
-.sectionOneGroup {
-    width: 40vw;
-}
-
 .sectionOne img {
-    width: 20vw;
+    width: 20rem;
+    max-width: 40%;
     height: auto;
-
 }
+
+
+/* =========================
+   SECTION TWO
+========================= */
 
 .sectionTwo {
-        background-color: var(--base-color);
-    height: 60vh;
+    background-color: var(--base-color);
+    min-height: 60vh;
     padding-top: 7rem;
 }
-
-
-
 
 .sectionTwoGroup {
     display: flex;
@@ -61,9 +93,12 @@ section {
 }
 
 
+/* =========================
+   SECTION THREE
+========================= */
 
 .sectionThree {
-    height: 100vh;
+    min-height: 100vh;
     background-color: lightgray;
     padding-top: 5rem;
 }
@@ -76,9 +111,62 @@ section {
 
 .sectionThreeGroup > div {
     background-color: white;
-    padding: 1rem 1rem;
+    padding: 1rem;
 }
 
 
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 1000px) {
+
+    section {
+        padding-left: 4rem;
+        padding-right: 4rem;
+    }
+
+    .sectionOne {
+        gap: 2rem;
+    }
+
+    .sectionOne img {
+        width: 18rem;
+        max-width: 35%;
+    }
+}
 
 
+@media (max-width: 700px) {
+
+    section {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+
+    .sectionOne {
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        padding-top: 4rem;
+        padding-bottom: 4rem;
+    }
+
+    .sectionOneGroup {
+        width: 100%;
+    }
+
+    .sectionOne img {
+        width: 15rem;
+        max-width: 70%;
+        align-self: center;
+    }
+
+    .sectionTwoGroup {
+        flex-direction: column;
+    }
+
+    .sectionThreeGroup {
+        flex-direction: column;
+    }
+}

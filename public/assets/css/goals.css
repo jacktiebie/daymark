@@ -1,0 +1,414 @@
+
+/* =========================
+   UPPER SECTION
+========================= */
+
+.upperSection {
+display: flex;
+flex-direction: column;
+justify-content: start;
+align-items: start;
+padding-left: 3rem;
+}
+
+.upperTitle {
+font: inherit;
+color: var(--accent-color);
+text-transform: capitalize;
+font-weight: 600;
+letter-spacing: 1px;
+line-height: 3;
+}
+
+.upperSection h1 {
+letter-spacing: 1px;
+font-size: 3rem;
+line-height: 1.2;
+}
+
+.upperDescription {
+    text-align: left;
+    color: var(--text-muted);
+}
+
+
+/* =========================
+   GOALS DATA / STATISTICS
+========================= */
+
+.goalsData {
+display: flex;
+flex-direction: row;
+justify-content: space-between;
+gap: 5rem;
+padding-left: 3rem;
+padding-top: 5rem;
+   padding-right: 3rem;
+}
+
+
+/* Alle 4 statistiek-kaarten */
+.goalsDataGoals,
+.goalsDataProgress,
+.goalsDataWeek,
+.goalsDataStreak {
+background-color: var(--base-color);
+border: 1px solid var(--border-color);
+box-shadow: var(--shadow-sm);
+border-radius: var(--radius-md);
+width: 20rem;
+height: 10rem;
+display: flex;
+}
+
+
+/* Iconen in de statistiek-kaarten */
+.goalsDataIcon {
+    width: 3rem;
+    padding-top: 1rem;
+}
+
+.goalsDataIconWrapper {
+     width: 4rem;
+    flex-shrink: 0;
+}
+
+.goalsDataContent {
+    flex: 1;
+   padding-top: 1rem;
+   display: flex;
+   flex-direction: column;
+   justify-content: start;
+   align-items: start;
+}
+
+
+
+/* Kleine titel boven het getal */
+.goalsDataSubtitle {
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+}
+
+
+/* Grote waarde */
+.goalsData h3 {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+
+/* Beschrijving onder de waarde */
+.goalsDataDescription {
+    color: var(--text-muted);
+}
+
+
+/* =========================
+   PROGRESS BAR
+========================= */
+
+.progressBar {
+    width: 80%;
+    height: 8px;
+    background-color: #e5e7eb;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress {
+    height: 100%;
+    background-color: #22c55e;
+    border-radius: 10px;
+    transition: width 0.4s ease;
+}
+
+/* =========================
+   MY GOALS
+========================= */
+.bottom {
+display: flex;
+gap: 2rem;
+padding-left: 3rem;
+padding-top: 5rem;
+   padding-right: 3rem;
+}
+
+
+.bottomLeft {
+   flex: 0.7;
+   background-color: var(--base-color);
+   border: 1px solid var(--border-color);
+box-shadow: var(--shadow-sm);
+border-radius: var(--radius-md);
+padding-left: 1rem;
+}
+
+.bottomLeft h2 {
+ text-align: left;
+    margin-bottom: 1rem;
+}
+
+
+/* Individuele goal */
+.bottomLeftWrap {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding: 1.2rem 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+
+/* Goal afbeelding */
+.bottomLeftWrap > img {
+    width: 3.5rem;
+    height: 3.5rem;
+    object-fit: cover;
+    margin-right: 1rem;
+    border-radius: var(--radius-sm);
+}
+
+.active {
+      margin-left: auto;
+           padding: 0.5rem 2rem 0.5rem 2rem;
+    background-color: var(--accent-color);
+    text-decoration: none;
+    font-family: inherit;
+    font-weight: 500;
+    color: white;
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-sm);
+    align-self: center;
+    margin-right: 5rem;
+}
+
+
+/* Tekstgedeelte van goal */
+.bottomLeftWrapText {
+   display: flex;
+   flex-direction: column;
+   justify-content: start;
+   align-items: start;
+    
+}
+
+.bottomLeftWrapText h4 {
+        font-size: 1rem;
+    margin-bottom: 0.3rem;
+}
+
+.bottomLeftWrapText p {
+       color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-bottom: 0.8rem;
+}
+
+
+
+
+/* =========================
+   RIGHT SIDE
+========================= */
+
+.bottomRight {
+    flex: 0.3;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+
+/* =========================
+   ADD GOAL BUTTON
+========================= */
+
+.bottomRightAddGoal {
+    background-color: var(--base-color);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+}
+
+.bottomRightAddGoal button {
+    width: 100%;
+    padding: 0.9rem 1.2rem;
+    border: none;
+    border-radius: var(--radius-sm);
+    background-color: var(--accent-color);
+    color: white;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    transition: 0.2s ease;
+}
+
+.bottomRightAddGoal button:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+
+/* =========================
+   QUOTE
+========================= */
+
+.bottomRightQuote {
+    flex: 1;
+    background-color: var(--base-color);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+    border-radius: var(--radius-md);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.bottomRightQuoteSubtitle {
+    color: var(--accent-color);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 1rem;
+}
+
+.bottomRightQuote h2 {
+    font-size: 1.5rem;
+    line-height: 1.4;
+    font-weight: 600;
+}
+/* =========================
+   GOAL POPUP
+========================= */
+
+.goalPopup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.75);
+    z-index: 1002;
+    justify-content: center;
+    align-items: center;
+}
+
+.goalPopupActive {
+    display: flex;
+}
+
+
+/* =========================
+   ADD GOAL
+========================= */
+
+.goalsAdd {
+    width: 40rem;
+    background-color: rgb(113, 180, 113);
+    color: white;
+    padding: 2.5rem 4rem;
+    border-radius: var(--radius-lg);
+}
+
+.goalsAdd form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+
+/* =========================
+   INPUTS
+========================= */
+
+.goalsAdd label {
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+}
+
+.goalsAdd input {
+    padding: 0.6rem 0.8rem;
+    border: none;
+    border-radius: var(--radius-sm);
+    background-color: var(--input-color);
+    color: var(--text-color);
+    font-family: inherit;
+}
+
+
+/* Target / Current / Unit */
+.goalInputRow {
+    display: flex;
+    gap: 1rem;
+}
+
+.goalInputRow div {
+    flex: 1;
+}
+
+.goalInputRow label {
+    display: block;
+}
+
+.goalInputRow input {
+    width: 100%;
+}
+
+
+/* =========================
+   STATUS
+========================= */
+
+.goalStatusOptions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.goalStatusOption input {
+    display: none;
+}
+
+.goalStatusOption span {
+    display: block;
+    padding: 0.6rem 1rem;
+    background-color: var(--base-color);
+    color: var(--text-color);
+    border-radius: var(--radius-sm);
+}
+
+.goalStatusOption input:checked + span {
+    background-color: var(--accent-color-light);
+    color: var(--accent-color);
+}
+
+
+/* =========================
+   BUTTONS
+========================= */
+
+.goalPopupButtons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.goalPopupButtons button {
+    padding: 0.7rem 1.4rem;
+    border: none;
+    border-radius: var(--radius-sm);
+    background-color: var(--base-color);
+    color: var(--accent-color);
+    font-family: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.goalPopupButtons button:hover {
+    background-color: var(--accent-color-light);
+}

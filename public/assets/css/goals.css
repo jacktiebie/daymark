@@ -190,8 +190,9 @@ padding-left: 1rem;
    flex-direction: column;
    justify-content: start;
    align-items: start;
-    
+   flex: 0.5;
 }
+
 
 .bottomLeftWrapText h4 {
         font-size: 1rem;

@@ -34,7 +34,8 @@ Class Goals
     ]);
 
     $_SESSION['notificationMessage'][] = "Goal succesvol toegevoegd";
-
+   $goal_id = $this->pdo->lastInsertId();
+    $this->checkStatus($target, $current, $goal_id);
     header("Location: goals.php");
     exit();
 
@@ -71,7 +72,7 @@ Class Goals
         $goal_id,
         $userid
     ]);
-
+    $this->checkStatus($target, $current, $goal_id);
     $_SESSION['notificationMessage'][] = "Goal succesvol aangepast";
 
     header("Location: goals.php");
@@ -127,5 +128,46 @@ if ($due_date < date('Y-m-d')) {
 
     return $goals;
     }
+
+    public function checkStatus($target, $current, $goal_id) {
+    if ($target === $current) {
+        $sql = "UPDATE goals SET status = 1 WHERE id = ?";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([$goal_id]);
+    }
+    }
+
+    public function getOverallProgress($userid)
+{
+    $goals = $this->getGoals($userid);
+
+    if (count($goals) === 0) {
+        return 0;
+    }
+
+    $totalProgress = 0;
+
+    foreach ($goals as $goal) {
+        if ($goal['target_value'] > 0) {
+            $totalProgress += ($goal['current_value'] / $goal['target_value']) * 100;
+        }
+    }
+
+    $totalProgress = $totalProgress / count($goals);
+
+    return round($totalProgress, 1);
+}
+
+public function deleteGoal($goal_id, $userid)
+{
+    $sql = "DELETE FROM goals WHERE id = ? AND user_id = ?";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$goal_id, $userid]);
+
+    $_SESSION['notificationMessage'][] = "Goal succesvol verwijderd";
+
+    header("Location: goals.php");
+    exit();
+}
 
 }

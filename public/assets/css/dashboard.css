@@ -1,0 +1,387 @@
+
+/* =========================
+   DASHBOARD
+========================= */
+
+.dashboard {
+    margin-left: 15rem;
+    padding: 2.5rem 3rem;
+    max-width: 1400px;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+.dashboardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    margin-bottom: 2rem;
+}
+
+.dashboardGreeting {
+    margin: 0 0 0.3rem;
+    color: var(--text-muted);
+}
+
+.dashboardHeader h1 {
+    margin: 0;
+    font-size: 2rem;
+    color: var(--text-color);
+}
+
+.dashboardDate {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    color: var(--text-muted);
+}
+
+.dashboardDate strong {
+    color: var(--text-color);
+}
+
+
+/* =========================
+   CARDS
+========================= */
+
+.dashboardCard {
+    background-color: var(--base-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-sm);
+}
+
+.cardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 1.5rem;
+}
+
+.cardHeader p,
+.dashboardCard > p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.cardHeader h2 {
+    margin: 0.25rem 0 0;
+    font-size: 1.2rem;
+    color: var(--text-color);
+}
+
+
+/* =========================
+   TOP STATS
+========================= */
+
+.dashboardStats {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.progressCard {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.cardTop {
+    display: flex;
+    justify-content: space-between;
+}
+
+.cardTop p,
+.cardTop span {
+    margin: 0;
+    color: var(--text-muted);
+}
+
+.progressInfo {
+    margin: 1.5rem 0;
+}
+
+.progressInfo strong {
+    font-size: 2.5rem;
+    color: var(--text-color);
+}
+
+.progressInfo p {
+    margin: 0.2rem 0 0;
+    color: var(--text-muted);
+}
+
+
+/* =========================
+   PROGRESS BAR
+========================= */
+
+.progressBar,
+.goalProgress {
+    width: 100%;
+    height: 8px;
+    background-color: #e8ece8;
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.progressBarFill {
+    width: 72%;
+    height: 100%;
+    background-color: var(--accent-color);
+    border-radius: inherit;
+}
+
+
+/* =========================
+   SMALL STATS
+========================= */
+
+.smallStat {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.smallStat p {
+    margin: 0;
+    color: var(--text-muted);
+}
+
+.smallStat strong {
+    margin: 0.5rem 0;
+    font-size: 2.2rem;
+    color: var(--text-color);
+}
+
+.smallStat span {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+
+/* =========================
+   MAIN GRID
+========================= */
+
+.dashboardGrid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 1rem;
+}
+
+
+/* =========================
+   HABITS
+========================= */
+
+.habitList {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+}
+
+.habitItem {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.7rem;
+    border-radius: var(--radius-sm);
+}
+
+.habitItem:hover {
+    background-color: #f5f7f5;
+}
+
+.habitIcon {
+    width: 28px;
+    height: 28px;
+    border: 2px solid var(--border-color);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.habitItem.completed .habitIcon {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+    color: white;
+}
+
+.habitItem strong,
+.habitItem span {
+    display: block;
+}
+
+.habitItem span {
+    margin-top: 0.15rem;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+
+/* =========================
+   CHECK-IN
+========================= */
+
+.checkinScore {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--accent-color);
+}
+
+.checkinList {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.checkinItem {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 0.7rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.checkinItem span {
+    color: var(--text-muted);
+}
+
+.checkinItem strong {
+    color: var(--text-color);
+}
+
+.checkinNote {
+    margin-top: 1.2rem !important;
+    line-height: 1.5;
+}
+
+
+/* =========================
+   GOALS
+========================= */
+
+.goalsCard {
+    grid-column: span 1;
+}
+
+.dashboardGoal {
+    margin-bottom: 1.3rem;
+}
+
+.dashboardGoal:last-child {
+    margin-bottom: 0;
+}
+
+.goalInfo {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+.goalInfo span {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+.goalProgress {
+    height: 6px;
+}
+
+.goalProgress div {
+    height: 100%;
+    background-color: var(--accent-color);
+    border-radius: inherit;
+}
+
+
+/* =========================
+   STREAK
+========================= */
+
+.streakCard {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.streakNumber {
+    display: flex;
+    align-items: baseline;
+    gap: 0.4rem;
+    margin: 0.5rem 0;
+}
+
+.streakNumber strong {
+    font-size: 3rem;
+}
+
+.streakNumber span {
+    color: var(--text-muted);
+}
+
+.streakText {
+    font-size: 0.85rem;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 1000px) {
+
+    .dashboard {
+        margin-left: 0;
+        padding: 2rem;
+    }
+
+    .dashboardStats {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .progressCard {
+        grid-column: span 2;
+    }
+
+    .dashboardGrid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+@media (max-width: 600px) {
+
+    .dashboard {
+        padding: 1rem;
+    }
+
+    .dashboardHeader {
+        flex-direction: column;
+        align-items: start;
+        gap: 1rem;
+    }
+
+    .dashboardDate {
+        align-items: start;
+    }
+
+    .dashboardStats {
+        grid-template-columns: 1fr;
+    }
+
+    .progressCard {
+        grid-column: span 1;
+    }
+}
+

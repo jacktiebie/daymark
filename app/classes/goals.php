@@ -10,13 +10,13 @@ Class Goals
         $this->pdo = $pdo;
     }
 
-    public function createGoal($title, $description, $target, $current, $unit, $due_date, $status, $userid) {
+    public function createGoal($title, $description, $target, $current, $unit, $due_date, $userid) {
     $this->validateGoal($title, $target, $current, $unit, $due_date);
 
      $created_at = date('Y-m-d H:i:s');
     $updated_at = date('Y-m-d H:i:s');
 
-    $sql = "INSERT INTO goals (user_id, title, description, target_value, current_value, unit, status, due_date, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO goals (user_id, title, description, target_value, current_value, unit, due_date, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     $stmt = $this->pdo->prepare($sql);
 
@@ -27,13 +27,15 @@ Class Goals
         $target,
         $current,
         $unit,
-        $status,
         $due_date,
         $created_at,
         $updated_at
     ]);
 
-    $_SESSION['notificationMessage'][] = "Goal succesvol toegevoegd";
+    $_SESSION['notifications'][] = [
+        'type' => 'success',
+        'message' => 'Goal succesvol toegevoegd'
+    ];
    $goal_id = $this->pdo->lastInsertId();
     $this->checkStatus($target, $current, $goal_id);
     header("Location: goals.php");
@@ -41,7 +43,7 @@ Class Goals
 
     }
 
-    public function editGoal($goal_id, $title, $description, $target, $current, $unit, $due_date, $status, $userid)
+    public function editGoal($goal_id, $title, $description, $target, $current, $unit, $due_date, $userid)
 {
     $this->validateGoal($title, $target, $current, $unit, $due_date);
 
@@ -53,7 +55,6 @@ Class Goals
                 target_value = ?, 
                 current_value = ?, 
                 unit = ?, 
-                status = ?, 
                 due_date = ?, 
                 updated_at = ?
             WHERE id = ? AND user_id = ?";
@@ -66,14 +67,16 @@ Class Goals
         $target,
         $current,
         $unit,
-        $status,
         $due_date,
         $updated_at,
         $goal_id,
         $userid
     ]);
     $this->checkStatus($target, $current, $goal_id);
-    $_SESSION['notificationMessage'][] = "Goal succesvol aangepast";
+    $_SESSION['notifications'][] = [
+        'type' => 'success',
+        'message' => 'Goal succesvol aangepast'
+    ];
 
     header("Location: goals.php");
     exit();
@@ -82,39 +85,56 @@ Class Goals
     public function validateGoal($title, $target, $current, $unit, $due_date) {
     //Basic String Trimming
     $title = trim($title);
-    $description = trim($description);
     $unit = trim($unit);
     //Title not empty
     if (empty($title)) {
-        $_SESSION['notificationMessage'][] = "Titel is leeg";
+        $_SESSION['notifications'][] = [
+            'type' => 'error',
+            'message' => 'Titel is leeg'
+        ];
         header("Location: goals.php");
         exit();       
     }
         //Targert not empty
     if (empty($unit)) {
-        $_SESSION['notificationMessage'][] = "Unit is leeg";
+        $_SESSION['notifications'][] = [
+            'type' => 'error',
+            'message' => 'Unit is leeg'
+        ];
         header("Location: goals.php");
         exit();       
     }
     //Target bigger than 0
     if ($target <= 0) {
-        $_SESSION['notificationMessage'][] = "Target is 0 of lager";
+        $_SESSION['notifications'][] = [
+            'type' => 'error',
+            'message' => 'Target is 0 of lager'
+        ];
           header("Location: goals.php");
         exit();      
     }
     //Current not bigger than target
     if ($current > $target) {
-        $_SESSION['notificationMessage'][] = "Current value groter dan target";
+        $_SESSION['notifications'][] = [
+            'type' => 'warning',
+            'message' => 'Current value groter dan target'
+        ];
         header("Location: goals.php");
         exit();  
     }
     if ($current < 0) {
-    $_SESSION['notificationMessage'][] = "Current value kan niet negatief zijn";
+    $_SESSION['notifications'][] = [
+        'type' => 'error',
+        'message' => 'Current value kan niet negatief zijn'
+    ];
     header("Location: goals.php");
     exit();
 }
 if ($due_date < date('Y-m-d')) {
-    $_SESSION['notificationMessage'][] = "Due date kan niet in het verleden liggen";
+    $_SESSION['notifications'][] = [
+        'type' => 'warning',
+        'message' => 'Due date kan niet in het verleden liggen'
+    ];
     header("Location: goals.php");
     exit();
 }
@@ -164,7 +184,10 @@ public function deleteGoal($goal_id, $userid)
     $stmt = $this->pdo->prepare($sql);
     $stmt->execute([$goal_id, $userid]);
 
-    $_SESSION['notificationMessage'][] = "Goal succesvol verwijderd";
+    $_SESSION['notifications'][] = [
+        'type' => 'success',
+        'message' => 'Goal succesvol verwijderd'
+    ];
 
     header("Location: goals.php");
     exit();

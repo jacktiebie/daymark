@@ -32,8 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $current = $_POST['current_value'];
             $unit = $_POST['unit'];
             $due_date = $_POST['due_date'];
-            $status = $_POST['status'];
-            $goalsModel->createGoal($title, $description, $target, $current, $unit, $due_date, $status, $userid);
+            $goalsModel->createGoal($title, $description, $target, $current, $unit, $due_date, $userid);
             //echo "<meta http-equiv='refresh' content='0'>";
             $goalActive = false;
             break;
@@ -60,8 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $current = $_POST['current_value'];
             $unit = $_POST['unit'];
             $due_date = $_POST['due_date'];
-            $status = $_POST['status'];
-            $goalsModel->editGoal($goal_id, $title, $description, $target, $current, $unit, $due_date, $status, $userid);
+            $goalsModel->editGoal($goal_id, $title, $description, $target, $current, $unit, $due_date, $userid);
             //echo "<meta http-equiv='refresh' content='0'>";
             $goalActive = false;
             break;
@@ -89,13 +87,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php require_once '../app/views/partials/dashboardHeader.php'; ?>
 
     <?php
-    if (isset($_SESSION['notificationMessage'])) {
-        foreach ($_SESSION['notificationMessage'] as $notificiation) {
-            echo "<span>" . $notificiation . "</span>";
-        }
-        unset($_SESSION['notificationMessage']);
-    }
-    ?>
+
+    if(!empty($_SESSION['notifications'])) {
+        foreach($_SESSION['notifications'] as $notification) {
+            ?><p class="<?php echo $notification['type']?>"><?=$notification['message']?></p><?php
+         } 
+    } unset ($_SESSION['notifications']); ?>
 
     <div class="upperSection">
         <p class="upperTitle">Small Steps. Bigger Dreams.</p>
@@ -279,7 +276,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <section class="goalsAdd">
 
             <form action="" method="post">
-
+<input type="hidden" name="goal_id" value="<?= $goal['id'] ?>">
                 <label for="goalTitle">Goal title</label>
                 <input
                     type="text"
@@ -335,28 +332,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 <label for="status">Status</label>
 
-                <div class="goalStatusOptions">
-
-                    <label class="goalStatusOption">
-                        <input
-                            type="radio"
-                            name="status"
-                            value="active"
-                            <?= isset($selectedGoal) && $selectedGoal['status'] == 0 ? 'checked' : '' ?>>
-                        <span>Active</span>
-                        <input type="hidden" name="goal_id" value="<?= $selectedGoal['id'] ?? '' ?>">
-                    </label>
-
-                    <label class="goalStatusOption">
-                        <input
-                            type="radio"
-                            name="status"
-                            value="completed"
-                            <?= isset($selectedGoal) && $selectedGoal['status'] == 1 ? 'checked' : '' ?>>
-                        <span>Completed</span>
-                    </label>
-
-                </div>
+              
 
                 <div class="goalPopupButtons">
 

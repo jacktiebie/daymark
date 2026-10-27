@@ -20,7 +20,7 @@ $quote = $randomQuote['quote'];
 $author = $randomQuote['author'];
 ?>
 <div class="dashboardHeaderOne">
-    <a href=""><img src="assets/images/logo.svg" alt="Logo"></a>
+    <a href=""><img src="assets/images/logo.png" alt="Logo"></a>
         <?php  if (isset($_SESSION["first_name"])) { ?> <p class="welcomeMessage">Welkom 
    <?php echo ($_SESSION["first_name"]); ?></p><?php } ?>
    <p><?php echo $quote; ?> -<?php echo $author ?></p>

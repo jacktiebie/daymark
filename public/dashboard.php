@@ -1,16 +1,109 @@
-<?php 
+<?php
+// ============================================================
+// SETUP
+// ============================================================
 require_once '../app/bootstrap.php';
 require_once '../app/classes/auth.php';
 require_once '../app/classes/dailyCheckins.php';
+require_once '../app/classes/goals.php';
+require_once '../app/classes/habits.php';
+
+// Make sure dates use the correct timezone (can also go in bootstrap.php)
+date_default_timezone_set('Europe/Amsterdam');
+
 $userid = $_SESSION["user_id"];
+$today = date('Y-m-d');
+
+// ============================================================
+// DAILY CHECK-INS
+// ============================================================
 $dailyCheckinsModel = new dailyCheckin($pdo);
 $dailyCheckinsResults = $dailyCheckinsModel->getDailyCheckin($userid);
 
-// Heeft de gebruiker vandaag al een check-in gedaan?
+// Has the user already done a check-in today?
 $alreadyCheckedIn = false;
 if (!empty($dailyCheckinsResults)) {
-    $latest = $dailyCheckinsResults[0]; // nieuwste door ORDER BY DESC
-    $alreadyCheckedIn = date('Y-m-d', strtotime($latest['created_at'])) === date('Y-m-d');
+    $latest = $dailyCheckinsResults[0]; // newest one, because of ORDER BY DESC
+    $alreadyCheckedIn = date('Y-m-d', strtotime($latest['created_at'])) === $today;
+}
+
+// ============================================================
+// STREAK (consecutive days with a daily check-in)
+// ============================================================
+// Collect all check-in dates (one entry per day)
+$checkinDates = [];
+foreach ($dailyCheckinsResults as $checkin) {
+    $checkinDates[] = date('Y-m-d', strtotime($checkin['created_at']));
+}
+$checkinDates = array_unique($checkinDates);
+
+$streak = 0;
+
+// Start counting at today. If the user hasn't checked in yet today,
+// start at yesterday so the streak doesn't reset before the day is over.
+$day = $alreadyCheckedIn ? $today : date('Y-m-d', strtotime('-1 day'));
+
+// Keep going back one day at a time until a day has no check-in
+while (in_array($day, $checkinDates)) {
+    $streak++;
+    $day = date('Y-m-d', strtotime("$day -1 day"));
+}
+
+// ============================================================
+// GOALS
+// ============================================================
+$goalsModel = new Goals($pdo);
+$goals = $goalsModel->getGoals($userid);
+
+$goalsNumber = count($goals); // total goals
+$activeGoals = 0;
+$completedGoals = 0;
+$activeGoalsList = []; // active goals that are shown on the dashboard
+
+// Count active/completed goals and collect the active ones
+foreach ($goals as $goal) {
+    if ($goal['status'] == 0) {
+        $activeGoals++;
+        $activeGoalsList[] = $goal;
+    } elseif ($goal['status'] == 1) {
+        $completedGoals++;
+    }
+}
+
+// Only show the first 3 active goals on the dashboard
+$activeGoalsList = array_slice($activeGoalsList, 0, 3);
+
+// Overall progress of all goals (in %)
+$totalProgress = $goalsModel->getOverallProgress($userid);
+
+// ============================================================
+// HABITS
+// ============================================================
+$habitsModel = new Habits($pdo);
+$todaysHabits = $habitsModel->getHabits($userid);
+$habitsTotal = count($todaysHabits);
+$habitsDone = 0;
+
+// Check for every habit if it is completed today
+foreach ($todaysHabits as $key => $habit) {
+    $log = $habitsModel->findHabit($habit['id'], $today);
+    $todaysHabits[$key]['completed'] = ($log !== false);
+
+    if ($log !== false) {
+        $habitsDone++;
+    }
+}
+
+// ============================================================
+// GREETING (based on the time of day)
+// ============================================================
+$hour = (int) date('G'); // current hour, 0-23
+if ($hour < 12) {
+    $greeting = "Good morning";
+} elseif ($hour < 18) {
+    $greeting = "Good afternoon";
+} else {
+    $greeting = "Good evening";
 }
 ?>
 
@@ -25,23 +118,30 @@ if (!empty($dailyCheckinsResults)) {
     <link rel="stylesheet" href="./assets/css/dashboard.css">
 </head>
 <body>
-<?php require_once '../app/views/partials/dashboardHeader.php';?>
-<?php if (isset($_SESSION['notificationMessage'])) {foreach ($_SESSION['notificationMessage'] as $notificiation) {
-    echo "<span>" . $notification . "</span>";
-}unset($_SESSION['notificationMessage']);
-}  ?>
+<?php require_once '../app/views/partials/dashboardHeader.php'; ?>
+
+<?php
+// Show notifications (e.g. "Habit is gelogd") and clear them afterwards
+if (isset($_SESSION['notificationMessage'])) {
+    foreach ($_SESSION['notificationMessage'] as $notification) {
+        echo "<span>" . $notification . "</span>";
+    }
+    unset($_SESSION['notificationMessage']);
+}
+?>
+
 <main class="dashboard">
 
-    <!-- HEADER -->
+    <!-- HEADER: greeting + date -->
     <section class="dashboardHeader">
         <div>
-            <p class="dashboardGreeting">Good afternoon, Jack</p>
+            <p class="dashboardGreeting"><?php echo $greeting; ?>, <?php echo htmlspecialchars($_SESSION["first_name"]); ?></p>
             <h1>Your day at a glance.</h1>
         </div>
 
         <div class="dashboardDate">
-            <span>Wednesday</span>
-            <strong>02 October 2026</strong>
+            <span><?php echo date('l'); ?></span>
+            <strong><?php echo date('d F Y'); ?></strong>
         </div>
     </section>
 
@@ -49,6 +149,7 @@ if (!empty($dailyCheckinsResults)) {
     <!-- TOP STATS -->
     <section class="dashboardStats">
 
+        <!-- Overall progress of all goals -->
         <div class="dashboardCard progressCard">
             <div class="cardTop">
                 <p>Overall Progress</p>
@@ -56,26 +157,26 @@ if (!empty($dailyCheckinsResults)) {
             </div>
 
             <div class="progressInfo">
-                <strong>72%</strong>
+                <strong><?php echo $totalProgress; ?>%</strong>
                 <p>Keep going, you're doing great.</p>
             </div>
 
             <div class="progressBar">
-                <div class="progressBarFill"></div>
+                <div class="progressBarFill" style="width: <?php echo $totalProgress; ?>%;"></div>
             </div>
         </div>
 
-
+        <!-- Number of active goals -->
         <div class="dashboardCard smallStat">
             <p>Active Goals</p>
-            <strong>3</strong>
-            <span>of 5 total goals</span>
+            <strong><?php echo $activeGoals; ?></strong>
+            <span>of <?php echo $goalsNumber; ?> total goals</span>
         </div>
 
-
+        <!-- Number of completed goals -->
         <div class="dashboardCard smallStat">
             <p>Completed Goals</p>
-            <strong>2</strong>
+            <strong><?php echo $completedGoals; ?></strong>
             <span>Goals completed</span>
         </div>
 
@@ -85,7 +186,7 @@ if (!empty($dailyCheckinsResults)) {
     <!-- MAIN CONTENT -->
     <section class="dashboardGrid">
 
-        <!-- HABITS -->
+        <!-- HABITS (max 4 shown) -->
         <div class="dashboardCard habitsCard">
 
             <div class="cardHeader">
@@ -94,93 +195,82 @@ if (!empty($dailyCheckinsResults)) {
                     <h2>Keep your streak alive</h2>
                 </div>
 
-                <span class="cardNumber">3 / 5</span>
+                <!-- Completed today / total habits -->
+                <span class="cardNumber"><?php echo $habitsDone; ?> / <?php echo $habitsTotal; ?></span>
             </div>
 
             <div class="habitList">
 
-                <div class="habitItem completed">
-                    <div class="habitIcon">✓</div>
+                <?php if (empty($todaysHabits)) { ?>
+                    <p>You don't have any habits yet.</p>
+                <?php } else { ?>
+                    <?php foreach (array_slice($todaysHabits, 0, 4) as $habit) { ?>
+                        <div class="habitItem <?php echo $habit['completed'] ? 'completed' : ''; ?>">
+                            <div class="habitIcon"><?php echo $habit['completed'] ? '✓' : ''; ?></div>
 
-                    <div>
-                        <strong>Drink Water</strong>
-                        <span>Daily</span>
-                    </div>
-                </div>
-
-
-                <div class="habitItem completed">
-                    <div class="habitIcon">✓</div>
-
-                    <div>
-                        <strong>Workout</strong>
-                        <span>Daily</span>
-                    </div>
-                </div>
-
-
-                <div class="habitItem">
-                    <div class="habitIcon"></div>
-
-                    <div>
-                        <strong>Read</strong>
-                        <span>30 minutes</span>
-                    </div>
-                </div>
-
-
-                <div class="habitItem">
-                    <div class="habitIcon"></div>
-
-                    <div>
-                        <strong>Learn PHP</strong>
-                        <span>1 hour</span>
-                    </div>
-                </div>
+                            <div>
+                                <strong><?php echo htmlspecialchars($habit['title']); ?></strong>
+                                <span><?php echo (int) $habit['frequency']; ?>x per week</span>
+                            </div>
+                        </div>
+                    <?php } ?>
+                <?php } ?>
 
             </div>
+
+            <?php if ($habitsTotal > 4) { ?>
+                <a href="./tasks.php">View all →</a>
+            <?php } ?>
 
         </div>
 
 
+<<<<<<< HEAD
         <!-- CHECK-IN -->
         <!-- CHECK-IN -->
 <div class="dashboardCard checkinCard">
+=======
+        <!-- DAILY CHECK-IN -->
+        <div class="dashboardCard checkinCard">
+>>>>>>> aab9110b206c75e364b9a9ab39b366f57d7254aa
 
     <?php if ($alreadyCheckedIn): ?>
 
-        <div class="cardHeader">
-            <div>
-                <p>Daily Check-in</p>
-                <h2>How was your day?</h2>
+                <?php if (!$alreadyCheckedIn) { ?>
+                    <!-- Not checked in yet: show the button -->
+                    <a href="./daily-checkins.php" class="dailyCheckinButton">Create your Daily Check-In</a>
+                <?php } else { ?>
+                    <!-- Already checked in: show the score of today -->
+                    <span class="checkinScore"><?php echo $latest['overall_day']; ?></span>
+                <?php } ?>
             </div>
 
-            <span class="checkinScore">
-                <?= htmlspecialchars($dailyCheckinsResults[0]['overall_day']) ?>
-            </span>
-        </div>
+            <?php if ($alreadyCheckedIn) { ?>
+                <!-- Details of today's check-in -->
+                <div class="checkinList">
 
-        <div class="checkinList">
+                    <div class="checkinItem">
+                        <span>Mood</span>
+                        <strong><?php echo $latest['mood']; ?> / 5</strong>
+                    </div>
 
-            <div class="checkinItem">
-                <span>Mood</span>
-                <strong><?= htmlspecialchars($dailyCheckinsResults[0]['mood']) ?> / 5</strong>
-            </div>
+                    <div class="checkinItem">
+                        <span>Energy</span>
+                        <strong><?php echo $latest['energy']; ?> / 5</strong>
+                    </div>
 
-            <div class="checkinItem">
-                <span>Energy</span>
-                <strong><?= htmlspecialchars($dailyCheckinsResults[0]['energy']) ?> / 5</strong>
-            </div>
+                    <div class="checkinItem">
+                        <span>Productivity</span>
+                        <strong><?php echo $latest['productivity']; ?> / 5</strong>
+                    </div>
 
-            <div class="checkinItem">
-                <span>Productivity</span>
-                <strong><?= htmlspecialchars($dailyCheckinsResults[0]['productivity']) ?> / 5</strong>
-            </div>
+                    <div class="checkinItem">
+                        <span>Sleep</span>
+                        <strong><?php echo $latest['sleep']; ?> / 5</strong>
+                    </div>
 
-            <div class="checkinItem">
-                <span>Sleep</span>
-                <strong><?= htmlspecialchars($dailyCheckinsResults[0]['sleep']) ?> / 5</strong>
-            </div>
+                </div>
+            <?php } ?>
 
         </div>
 
@@ -212,7 +302,7 @@ if (!empty($dailyCheckinsResults)) {
 </div>
 
 
-        <!-- GOALS -->
+        <!-- ACTIVE GOALS (max 3 shown) -->
         <div class="dashboardCard goalsCard">
 
             <div class="cardHeader">
@@ -221,50 +311,34 @@ if (!empty($dailyCheckinsResults)) {
                     <h2>Your current focus</h2>
                 </div>
 
-                <span>View all →</span>
+                <a href="./goals.php">View all →</a>
             </div>
 
+            <?php if (empty($activeGoalsList)) { ?>
+                <p>You don't have any active goals yet.</p>
+            <?php } else { ?>
+                <?php foreach ($activeGoalsList as $goal) { ?>
+                    <?php
+                    // Progress of this goal in %, never above 100 (and no division by zero)
+                    $percentage = 0;
+                    if ($goal['target_value'] > 0) {
+                        $percentage = min(100, $goal['current_value'] / $goal['target_value'] * 100);
+                    }
+                    ?>
+                    <div class="dashboardGoal">
 
-            <div class="dashboardGoal">
+                        <div class="goalInfo">
+                            <strong><?php echo htmlspecialchars($goal['title']); ?></strong>
+                            <span><?php echo $goal['current_value']; ?> / <?php echo $goal['target_value']; ?> <?php echo htmlspecialchars($goal['unit']); ?></span>
+                        </div>
 
-                <div class="goalInfo">
-                    <strong>Learn PHP</strong>
-                    <span>70 / 100 hours</span>
-                </div>
+                        <div class="goalProgress">
+                            <div style="width: <?php echo $percentage; ?>%;"></div>
+                        </div>
 
-                <div class="goalProgress">
-                    <div style="width: 70%;"></div>
-                </div>
-
-            </div>
-
-
-            <div class="dashboardGoal">
-
-                <div class="goalInfo">
-                    <strong>Build Daymark</strong>
-                    <span>60 / 100%</span>
-                </div>
-
-                <div class="goalProgress">
-                    <div style="width: 60%;"></div>
-                </div>
-
-            </div>
-
-
-            <div class="dashboardGoal">
-
-                <div class="goalInfo">
-                    <strong>Read 5 books</strong>
-                    <span>2 / 5 books</span>
-                </div>
-
-                <div class="goalProgress">
-                    <div style="width: 40%;"></div>
-                </div>
-
-            </div>
+                    </div>
+                <?php } ?>
+            <?php } ?>
 
         </div>
 
@@ -275,12 +349,19 @@ if (!empty($dailyCheckinsResults)) {
             <p>Current Streak</p>
 
             <div class="streakNumber">
-                <strong>7</strong>
-                <span>days</span>
+                <strong><?php echo $streak; ?></strong>
+                <span><?php echo $streak == 1 ? 'day' : 'days'; ?></span>
             </div>
 
             <p class="streakText">
-                You're building a solid routine.
+                <?php
+                // Message depends on the streak
+                if ($streak == 0) {
+                    echo "Check in today to start your streak.";
+                } else {
+                    echo "You're building a solid routine.";
+                }
+                ?>
             </p>
 
         </div>

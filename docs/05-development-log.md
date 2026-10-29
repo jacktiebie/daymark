@@ -92,6 +92,7 @@ Build the HTML and CSS for the register and login pages.
 * Public, private and protected
 * Inheritance and static methods
 * Type declarations and autoloading
+Type declerations and autoladi
 
 ### Next
 

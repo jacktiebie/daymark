@@ -90,5 +90,6 @@ De belangrijkste functionaliteiten voor de MVP zijn:
 3. Doelen en taken beheren
 4. Dashboard
 5. Voortgang kunnen bekijken
+6. Statistieken laten zien via php graph.
 
 Later kunnen aanvullende functionaliteiten worden toegevoegd, zoals uitgebreide statistieken, grafieken en verdere personalisatie.

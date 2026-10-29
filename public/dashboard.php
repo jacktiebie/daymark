@@ -1,6 +1,17 @@
 <?php 
 require_once '../app/bootstrap.php';
 require_once '../app/classes/auth.php';
+require_once '../app/classes/dailyCheckins.php';
+$userid = $_SESSION["user_id"];
+$dailyCheckinsModel = new dailyCheckin($pdo);
+$dailyCheckinsResults = $dailyCheckinsModel->getDailyCheckin($userid);
+
+// Heeft de gebruiker vandaag al een check-in gedaan?
+$alreadyCheckedIn = false;
+if (!empty($dailyCheckinsResults)) {
+    $latest = $dailyCheckinsResults[0]; // nieuwste door ORDER BY DESC
+    $alreadyCheckedIn = date('Y-m-d', strtotime($latest['created_at'])) === date('Y-m-d');
+}
 ?>
 
 <!DOCTYPE html>
@@ -133,46 +144,72 @@ require_once '../app/classes/auth.php';
 
 
         <!-- CHECK-IN -->
-        <div class="dashboardCard checkinCard">
+        <!-- CHECK-IN -->
+<div class="dashboardCard checkinCard">
 
-            <div class="cardHeader">
-                <div>
-                    <p>Daily Check-in</p>
-                    <h2>How was your day?</h2>
-                </div>
+    <?php if ($alreadyCheckedIn): ?>
 
-                <span class="checkinScore">4.0</span>
+        <div class="cardHeader">
+            <div>
+                <p>Daily Check-in</p>
+                <h2>How was your day?</h2>
             </div>
 
-            <div class="checkinList">
+            <span class="checkinScore">
+                <?= htmlspecialchars($dailyCheckinsResults[0]['overall_day']) ?>
+            </span>
+        </div>
 
-                <div class="checkinItem">
-                    <span>Mood</span>
-                    <strong>4 / 5</strong>
-                </div>
+        <div class="checkinList">
 
-                <div class="checkinItem">
-                    <span>Energy</span>
-                    <strong>3 / 5</strong>
-                </div>
-
-                <div class="checkinItem">
-                    <span>Productivity</span>
-                    <strong>4 / 5</strong>
-                </div>
-
-                <div class="checkinItem">
-                    <span>Sleep</span>
-                    <strong>4 / 5</strong>
-                </div>
-
+            <div class="checkinItem">
+                <span>Mood</span>
+                <strong><?= htmlspecialchars($dailyCheckinsResults[0]['mood']) ?> / 5</strong>
             </div>
 
-            <p class="checkinNote">
-                "Had a productive day and managed to finish my PHP work."
-            </p>
+            <div class="checkinItem">
+                <span>Energy</span>
+                <strong><?= htmlspecialchars($dailyCheckinsResults[0]['energy']) ?> / 5</strong>
+            </div>
+
+            <div class="checkinItem">
+                <span>Productivity</span>
+                <strong><?= htmlspecialchars($dailyCheckinsResults[0]['productivity']) ?> / 5</strong>
+            </div>
+
+            <div class="checkinItem">
+                <span>Sleep</span>
+                <strong><?= htmlspecialchars($dailyCheckinsResults[0]['sleep']) ?> / 5</strong>
+            </div>
 
         </div>
+
+        <?php if (!empty($dailyCheckinsResults[0]['note'])): ?>
+            <p class="checkinNote">
+                "<?= htmlspecialchars($dailyCheckinsResults[0]['note']) ?>"
+            </p>
+        <?php endif; ?>
+
+    <?php else: ?>
+
+        <div class="cardHeader">
+            <div>
+                <p>Daily Check-in</p>
+                <h2>How was your day?</h2>
+            </div>
+        </div>
+
+        <p>
+            You haven't completed your daily check-in yet.
+        </p>
+
+        <a href="dailyCheckin.php" class="checkinButton">
+            Go to Daily Check-in
+        </a>
+
+    <?php endif; ?>
+
+</div>
 
 
         <!-- GOALS -->
